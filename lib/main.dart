@@ -4,6 +4,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:http/http.dart' as http;
+import 'package:antdesign_icons/antdesign_icons.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 void main() {
   runApp(const MyApp());
@@ -47,11 +49,19 @@ class Song {
 
 Future<Song> getSotd(String url) async {
   final resp = await http.get(Uri.parse(url));
+
   if (resp.statusCode == 200) {
     return Song.fromJson(jsonDecode(resp.body));
   } else {
     throw Exception('Failed to get song of the day :(');
   }
+}
+
+void showSnackbar(BuildContext context, String msg) {
+  ScaffoldMessenger.of(context).hideCurrentSnackBar();
+  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+    content: Text(msg),
+  ));
 }
 
 class SotdApp extends StatefulWidget {
@@ -125,8 +135,15 @@ class _SotdAppState extends State<SotdApp> {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              const Icon(Icons.waving_hand_rounded,
-                                  color: Colors.white),
+                              IconButton(
+                                icon: const Icon(
+                                  AntIcons.heartTwotone,
+                                  color: Colors.red,
+                                ),
+                                onPressed: () {
+                                  showSnackbar(context, "I love you Anu <3");
+                                },
+                              ),
                               Column(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceEvenly,
@@ -151,8 +168,15 @@ class _SotdAppState extends State<SotdApp> {
                                       ))
                                 ],
                               ),
-                              const Icon(Icons.emoji_emotions,
-                                  color: Colors.white)
+                              IconButton(
+                                icon: const Icon(
+                                  AntIcons.smileFilled,
+                                  color: Colors.amber,
+                                ),
+                                onPressed: () {
+                                  showSnackbar(context, "Hiiiiii Anu :D");
+                                },
+                              )
                             ],
                           ))),
                   const SizedBox(
@@ -180,7 +204,8 @@ class _SotdAppState extends State<SotdApp> {
                 ],
               );
             } else if (snapshot.hasError) {
-              return Text("${snapshot.error}");
+              return Text("${snapshot.error}",
+                  style: const TextStyle(fontSize: 20, color: Colors.white));
             } else {
               return const CircularProgressIndicator();
             }
@@ -189,3 +214,23 @@ class _SotdAppState extends State<SotdApp> {
     );
   }
 }
+
+
+
+// class Snackbar extends StatefulWidget {
+//   final String msg;
+
+//   const Snackbar({Key? key, required this.msg}) : super(key: key);
+
+//   @override
+//   State<StatefulWidget> createState() {
+//     return _SnackbarState();
+//   }
+// }
+
+// class _SnackbarState extends State<Snackbar> {
+//   @override
+//   Widget build(BuildContext context) {
+//     return ScaffoldMessenger.of(context).hideCurrentSnackBar();
+//   }
+// }
