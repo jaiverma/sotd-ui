@@ -64,6 +64,12 @@ void showSnackbar(BuildContext context, String msg) {
   ));
 }
 
+Future<void> launchUrl(String url) async {
+  if (!await launch(url)) {
+    throw "Could not launch $url";
+  }
+}
+
 class SotdApp extends StatefulWidget {
   const SotdApp({Key? key}) : super(key: key);
 
@@ -73,6 +79,7 @@ class SotdApp extends StatefulWidget {
 
 class _SotdAppState extends State<SotdApp> {
   late Future<Song> song;
+  Future<void>? _launched;
 
   @override
   void initState() {
@@ -190,14 +197,18 @@ class _SotdAppState extends State<SotdApp> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           IconButton(
-                            icon: Icon(Icons.link,
+                            icon: Icon(AntIcons.paperClipOutlined,
                                 color: Colors.white.withOpacity(0.8), size: 50),
-                            onPressed: null,
+                            onPressed: () => setState(() {
+                              _launched = launchUrl(snapshot.data!.trackUrl);
+                            }),
                           ),
                           IconButton(
-                            icon: Icon(Icons.play_arrow,
+                            icon: Icon(AntIcons.playSquareOutlined,
                                 color: Colors.white.withOpacity(0.8), size: 50),
-                            onPressed: null,
+                            onPressed: () => setState(() {
+                              _launched = launchUrl(snapshot.data!.trackUri);
+                            }),
                           )
                         ],
                       ))
