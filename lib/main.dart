@@ -294,9 +294,9 @@ class _PastSongsState extends State<PastSongs> {
                             title: Text(
                               song.trackName,
                               style: const TextStyle(
-                                  fontSize: 18,
+                                  fontSize: 17,
                                   color: Colors.white,
-                                  fontWeight: FontWeight.bold),
+                                  fontWeight: FontWeight.normal),
                               textAlign: TextAlign.left,
                             ),
                             trailing: Row(
@@ -304,10 +304,29 @@ class _PastSongsState extends State<PastSongs> {
                                     MainAxisAlignment.spaceBetween,
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
+                                  Text(snapshot.data![index].albumName,
+                                      style: TextStyle(
+                                          color: Colors.white.withOpacity(0.8),
+                                          fontWeight: FontWeight.w400)),
+                                  const SizedBox(
+                                    width: 20,
+                                  ),
+                                  Text(snapshot.data![index].artists.join(", "),
+                                      style: TextStyle(
+                                          color: Colors.white.withOpacity(0.8),
+                                          fontWeight: FontWeight.w400,
+                                          fontStyle: FontStyle.italic)),
+                                  const SizedBox(
+                                    width: 20,
+                                  ),
                                   Image(
                                       image: NetworkImage(
                                           snapshot.data![index].imageUrl)),
-                                ]));
+                                ]),
+                            onTap: () => setState(() {
+                                  _launched =
+                                      launchUrl(snapshot.data![index].trackUri);
+                                }));
                       });
                 } else if (snapshot.hasError) {
                   return Text("${snapshot.error}",
