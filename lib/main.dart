@@ -136,7 +136,7 @@ class _SotdAppState extends State<SotdApp> {
                   ),
                   Padding(
                       padding: const EdgeInsets.only(left: 10, right: 10),
-                      child: Container(
+                      child: SizedBox(
                           width: size.width - 80,
                           height: 70,
                           child: Row(
@@ -162,7 +162,7 @@ class _SotdAppState extends State<SotdApp> {
                                         color: Colors.white,
                                         fontWeight: FontWeight.bold),
                                   ),
-                                  Container(
+                                  SizedBox(
                                       width: 150,
                                       child: Text(
                                         snapshot.data!.albumName,
@@ -211,6 +211,41 @@ class _SotdAppState extends State<SotdApp> {
                             }),
                           )
                         ],
+                      )),
+                  const SizedBox(
+                    height: 80,
+                  ),
+                  Divider(
+                    thickness: 1,
+                    color: Colors.white.withOpacity(0.8),
+                  ),
+                  SizedBox(
+                      height: 300,
+                      child: Column(
+                        children: [
+                          const SizedBox(
+                              height: 30,
+                              child: Center(
+                                child: Text(
+                                  "Past songs",
+                                  style: TextStyle(
+                                      fontSize: 20, color: Colors.white),
+                                  textAlign: TextAlign.center,
+                                ),
+                              )),
+                          Divider(
+                              thickness: 1,
+                              color: Colors.white.withOpacity(0.8)),
+                          Expanded(
+                              child: ListView.builder(
+                                  itemCount: 21,
+                                  itemBuilder: (context, index) {
+                                    return ListTile(
+                                        title: Text("hello $index",
+                                            style: const TextStyle(
+                                                color: Colors.white)));
+                                  }))
+                        ],
                       ))
                 ],
               );
@@ -225,23 +260,3 @@ class _SotdAppState extends State<SotdApp> {
     );
   }
 }
-
-
-
-// class Snackbar extends StatefulWidget {
-//   final String msg;
-
-//   const Snackbar({Key? key, required this.msg}) : super(key: key);
-
-//   @override
-//   State<StatefulWidget> createState() {
-//     return _SnackbarState();
-//   }
-// }
-
-// class _SnackbarState extends State<Snackbar> {
-//   @override
-//   Widget build(BuildContext context) {
-//     return ScaffoldMessenger.of(context).hideCurrentSnackBar();
-//   }
-// }
