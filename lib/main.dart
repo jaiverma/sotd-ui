@@ -1,8 +1,5 @@
 import 'dart:convert';
-
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:http/http.dart' as http;
 import 'package:antdesign_icons/antdesign_icons.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -219,34 +216,7 @@ class _SotdAppState extends State<SotdApp> {
                     thickness: 1,
                     color: Colors.white.withOpacity(0.8),
                   ),
-                  SizedBox(
-                      height: 300,
-                      child: Column(
-                        children: [
-                          const SizedBox(
-                              height: 30,
-                              child: Center(
-                                child: Text(
-                                  "Past songs",
-                                  style: TextStyle(
-                                      fontSize: 20, color: Colors.white),
-                                  textAlign: TextAlign.center,
-                                ),
-                              )),
-                          Divider(
-                              thickness: 1,
-                              color: Colors.white.withOpacity(0.8)),
-                          Expanded(
-                              child: ListView.builder(
-                                  itemCount: 21,
-                                  itemBuilder: (context, index) {
-                                    return ListTile(
-                                        title: Text("hello $index",
-                                            style: const TextStyle(
-                                                color: Colors.white)));
-                                  }))
-                        ],
-                      ))
+                  PastSongs(),
                 ],
               );
             } else if (snapshot.hasError) {
@@ -258,5 +228,57 @@ class _SotdAppState extends State<SotdApp> {
           },
           future: song),
     );
+  }
+}
+
+class PastSongs extends StatefulWidget {
+  late Future<List<Song>> song;
+  Future<void>? _launched;
+
+  PastSongs({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  _PastSongsState createState() => _PastSongsState();
+}
+
+class _PastSongsState extends State<PastSongs> {
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return getBody();
+  }
+
+  Widget getBody() {
+    return SizedBox(
+        height: 300,
+        child: Column(
+          children: [
+            const SizedBox(
+                height: 30,
+                child: Center(
+                  child: Text(
+                    "Past songs",
+                    style: TextStyle(fontSize: 20, color: Colors.white),
+                    textAlign: TextAlign.center,
+                  ),
+                )),
+            Divider(thickness: 1, color: Colors.white.withOpacity(0.8)),
+            Expanded(
+                child: ListView.builder(
+                    itemCount: 21,
+                    itemBuilder: (context, index) {
+                      return ListTile(
+                          onTap: null,
+                          title: Text("hello $index",
+                              style: const TextStyle(color: Colors.white)));
+                    }))
+          ],
+        ));
   }
 }
