@@ -187,27 +187,5 @@ class _SotdAppState extends State<SotdApp> {
           },
           future: song),
     );
-    //     Stack(
-    //   children: [
-    //     Container(
-    //       width: size.width,
-    //       height: 220,
-    //       decoration: const BoxDecoration(
-    //           image: const DecorationImage(
-    //               image: NetworkImage(
-    //                   "https://i.scdn.co/image/ab67616d00001e0282a2fe856191e66bc0b9c6ce"),
-    //               fit: BoxFit.cover)),
-    //     ),
-    //     const SizedBox(
-    //       height: 30,
-    //     ),
-    //     Padding(
-    //         padding: const EdgeInsets.only(left: 30, right: 30),
-    //         child: Row(
-    //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-    //           children: [const Text("Hello")],
-    //         ))
-    //   ],
-    // ));
   }
 }
