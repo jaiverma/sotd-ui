@@ -50,7 +50,18 @@ Future<Song> getSotd(String url) async {
   if (resp.statusCode == 200) {
     return Song.fromJson(jsonDecode(resp.body));
   } else {
-    throw Exception('Failed to get song of the day :(');
+    throw Exception("Failed to get song of the day :(");
+  }
+}
+
+Future<List<Song>> getPastSongs(String url) async {
+  final resp = await http.get(Uri.parse(url));
+
+  if (resp.statusCode == 200) {
+    final data = jsonDecode(resp.body) as List<dynamic>;
+    return data.map((e) => Song.fromJson(e)).toList();
+  } else {
+    throw Exception("Failed to get past songs :(");
   }
 }
 
@@ -232,10 +243,7 @@ class _SotdAppState extends State<SotdApp> {
 }
 
 class PastSongs extends StatefulWidget {
-  late Future<List<Song>> song;
-  Future<void>? _launched;
-
-  PastSongs({
+  const PastSongs({
     Key? key,
   }) : super(key: key);
 
@@ -244,9 +252,13 @@ class PastSongs extends StatefulWidget {
 }
 
 class _PastSongsState extends State<PastSongs> {
+  late Future<List<Song>> songList;
+  Future<void>? _launched;
+
   @override
   void initState() {
     super.initState();
+    songList = getPastSongs("http://localhost:5000/past_songs");
   }
 
   @override
@@ -270,14 +282,42 @@ class _PastSongsState extends State<PastSongs> {
                 )),
             Divider(thickness: 1, color: Colors.white.withOpacity(0.8)),
             Expanded(
-                child: ListView.builder(
-                    itemCount: 21,
-                    itemBuilder: (context, index) {
-                      return ListTile(
-                          onTap: null,
-                          title: Text("hello $index",
-                              style: const TextStyle(color: Colors.white)));
-                    }))
+                child: FutureBuilder<List<Song>>(
+              future: songList,
+              builder: ((context, snapshot) {
+                if (snapshot.hasData) {
+                  return ListView.builder(
+                      itemCount: snapshot.data!.length,
+                      itemBuilder: (context, index) {
+                        Song song = snapshot.data![index];
+                        return ListTile(
+                            title: Text(
+                              song.trackName,
+                              style: const TextStyle(
+                                  fontSize: 18,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold),
+                              textAlign: TextAlign.left,
+                            ),
+                            trailing: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Image(
+                                      image: NetworkImage(
+                                          snapshot.data![index].imageUrl)),
+                                ]));
+                      });
+                } else if (snapshot.hasError) {
+                  return Text("${snapshot.error}",
+                      style:
+                          const TextStyle(fontSize: 20, color: Colors.white));
+                } else {
+                  return const CircularProgressIndicator();
+                }
+              }),
+            ))
           ],
         ));
   }
