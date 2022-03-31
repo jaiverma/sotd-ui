@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:http/http.dart' as http;
 
 void main() {
@@ -77,56 +78,115 @@ class _SotdAppState extends State<SotdApp> {
   Widget getBody() {
     var size = MediaQuery.of(context).size;
     return SingleChildScrollView(
-        child: FutureBuilder<Song>(
-            builder: (context, snapshot) {
-              if (snapshot.hasData) {
-                return Stack(
-                  children: [
-                    Container(
-                      width: size.width,
-                      height: 220,
-                      decoration: BoxDecoration(
-                          image: DecorationImage(
-                              image: NetworkImage(snapshot.data!.imageUrl),
-                              fit: BoxFit.cover)),
-                    ),
-                    const SizedBox(
-                      height: 30,
-                    ),
-                    Padding(
-                        padding: const EdgeInsets.only(left: 30, right: 30),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              snapshot.data!.trackName,
-                              style: const TextStyle(
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.bold,
+      child: FutureBuilder<Song>(
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              return Column(
+                children: [
+                  Stack(
+                    children: [
+                      Padding(
+                          padding: const EdgeInsets.only(
+                              left: 30, right: 30, top: 20),
+                          child: Container(
+                            width: size.width - 100,
+                            height: size.width - 100,
+                            decoration: BoxDecoration(boxShadow: const [
+                              BoxShadow(
+                                  color: Colors.red,
+                                  blurRadius: 50,
+                                  spreadRadius: 5,
+                                  offset: Offset(-10, 40))
+                            ], borderRadius: BorderRadius.circular(20)),
+                          )),
+                      Padding(
+                          padding: const EdgeInsets.only(
+                              left: 30, right: 30, top: 20),
+                          child: Container(
+                            width: size.width - 60,
+                            height: size.width - 60,
+                            decoration: BoxDecoration(
+                                image: DecorationImage(
+                                    image:
+                                        NetworkImage(snapshot.data!.imageUrl),
+                                    fit: BoxFit.cover),
+                                borderRadius: BorderRadius.circular(20)),
+                          )),
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  Padding(
+                      padding: const EdgeInsets.only(left: 10, right: 10),
+                      child: Container(
+                          width: size.width - 80,
+                          height: 70,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              const Icon(Icons.waving_hand_rounded,
                                   color: Colors.white),
-                            ),
-                            Container(
-                              decoration: BoxDecoration(
-                                  color: Colors.grey,
-                                  borderRadius: BorderRadius.circular(5)),
-                              child: const Padding(
-                                padding: EdgeInsets.only(
-                                    left: 12, right: 12, top: 8, bottom: 8),
-                                child: Text("Subscribe",
-                                    style: TextStyle(color: Colors.white)),
+                              Column(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  Text(
+                                    snapshot.data!.trackName,
+                                    style: const TextStyle(
+                                        fontSize: 18,
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                  Container(
+                                      width: 150,
+                                      child: Text(
+                                        snapshot.data!.albumName,
+                                        maxLines: 1,
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                            fontSize: 15,
+                                            color:
+                                                Colors.white.withOpacity(0.5)),
+                                      ))
+                                ],
                               ),
-                            )
-                          ],
-                        ))
-                  ],
-                );
-              } else if (snapshot.hasError) {
-                return Text("${snapshot.error}");
-              } else {
-                return const CircularProgressIndicator();
-              }
-            },
-            future: song));
+                              const Icon(Icons.emoji_emotions,
+                                  color: Colors.white)
+                            ],
+                          ))),
+                  const SizedBox(
+                    height: 25,
+                  ),
+                  Padding(
+                      padding: EdgeInsets.only(
+                          left: size.width / 2 - 100,
+                          right: size.width / 2 - 100),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          IconButton(
+                            icon: Icon(Icons.link,
+                                color: Colors.white.withOpacity(0.8), size: 50),
+                            onPressed: null,
+                          ),
+                          IconButton(
+                            icon: Icon(Icons.play_arrow,
+                                color: Colors.white.withOpacity(0.8), size: 50),
+                            onPressed: null,
+                          )
+                        ],
+                      ))
+                ],
+              );
+            } else if (snapshot.hasError) {
+              return Text("${snapshot.error}");
+            } else {
+              return const CircularProgressIndicator();
+            }
+          },
+          future: song),
+    );
     //     Stack(
     //   children: [
     //     Container(
