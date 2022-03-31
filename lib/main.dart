@@ -71,33 +71,83 @@ class _SotdAppState extends State<SotdApp> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(backgroundColor: Colors.purple[100], body: getBody());
+    return Scaffold(backgroundColor: Colors.black, body: getBody());
   }
 
   Widget getBody() {
     var size = MediaQuery.of(context).size;
     return SingleChildScrollView(
-        child: Stack(
-      children: [
-        Container(
-          width: size.width,
-          height: 220,
-          decoration: const BoxDecoration(
-              image: const DecorationImage(
-                  image: NetworkImage(
-                      "https://i.scdn.co/image/ab67616d00001e0282a2fe856191e66bc0b9c6ce"),
-                  fit: BoxFit.cover)),
-        ),
-        const SizedBox(
-          height: 30,
-        ),
-        Padding(
-            padding: const EdgeInsets.only(left: 30, right: 30),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [const Text("Hello")],
-            ))
-      ],
-    ));
+        child: FutureBuilder<Song>(
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                return Stack(
+                  children: [
+                    Container(
+                      width: size.width,
+                      height: 220,
+                      decoration: BoxDecoration(
+                          image: DecorationImage(
+                              image: NetworkImage(snapshot.data!.imageUrl),
+                              fit: BoxFit.cover)),
+                    ),
+                    const SizedBox(
+                      height: 30,
+                    ),
+                    Padding(
+                        padding: const EdgeInsets.only(left: 30, right: 30),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              snapshot.data!.trackName,
+                              style: const TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white),
+                            ),
+                            Container(
+                              decoration: BoxDecoration(
+                                  color: Colors.grey,
+                                  borderRadius: BorderRadius.circular(5)),
+                              child: const Padding(
+                                padding: EdgeInsets.only(
+                                    left: 12, right: 12, top: 8, bottom: 8),
+                                child: Text("Subscribe",
+                                    style: TextStyle(color: Colors.white)),
+                              ),
+                            )
+                          ],
+                        ))
+                  ],
+                );
+              } else if (snapshot.hasError) {
+                return Text("${snapshot.error}");
+              } else {
+                return const CircularProgressIndicator();
+              }
+            },
+            future: song));
+    //     Stack(
+    //   children: [
+    //     Container(
+    //       width: size.width,
+    //       height: 220,
+    //       decoration: const BoxDecoration(
+    //           image: const DecorationImage(
+    //               image: NetworkImage(
+    //                   "https://i.scdn.co/image/ab67616d00001e0282a2fe856191e66bc0b9c6ce"),
+    //               fit: BoxFit.cover)),
+    //     ),
+    //     const SizedBox(
+    //       height: 30,
+    //     ),
+    //     Padding(
+    //         padding: const EdgeInsets.only(left: 30, right: 30),
+    //         child: Row(
+    //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    //           children: [const Text("Hello")],
+    //         ))
+    //   ],
+    // ));
   }
 }
