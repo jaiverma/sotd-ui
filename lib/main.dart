@@ -28,7 +28,7 @@ class Song {
   final String trackUrl;
 
   Song(this.albumName, this.artists, this.imageUrl, this.releaseDate,
-      this.trackName, this.trackUri, this.trackUrl) {}
+      this.trackName, this.trackUri, this.trackUrl);
 
   factory Song.fromJson(Map<String, dynamic> data) {
     final albumName = data["album_name"] as String;
@@ -209,28 +209,35 @@ class _SotdAppState extends State<SotdApp> {
                     height: 25,
                   ),
                   Padding(
-                      padding: EdgeInsets.only(
-                          left: size.width / 2 - 100,
-                          right: size.width / 2 - 100),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          IconButton(
-                            icon: Icon(AntIcons.paperClipOutlined,
-                                color: Colors.white.withOpacity(0.8), size: 50),
-                            onPressed: () => setState(() {
-                              _launched = launchUrl(snapshot.data!.trackUrl);
-                            }),
-                          ),
-                          IconButton(
-                            icon: Icon(AntIcons.playSquareOutlined,
-                                color: Colors.white.withOpacity(0.8), size: 50),
-                            onPressed: () => setState(() {
-                              _launched = launchUrl(snapshot.data!.trackUri);
-                            }),
-                          )
-                        ],
-                      )),
+                      padding: const EdgeInsets.only(left: 10, right: 10),
+                      child: SizedBox(
+                          width: 200,
+                          height: 70,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              IconButton(
+                                padding: EdgeInsets.zero,
+                                icon: Icon(AntIcons.paperClipOutlined,
+                                    color: Colors.white.withOpacity(0.8),
+                                    size: 50),
+                                onPressed: () => setState(() {
+                                  _launched =
+                                      launchUrl(snapshot.data!.trackUrl);
+                                }),
+                              ),
+                              IconButton(
+                                padding: EdgeInsets.zero,
+                                icon: Icon(AntIcons.playSquareOutlined,
+                                    color: Colors.white.withOpacity(0.8),
+                                    size: 50),
+                                onPressed: () => setState(() {
+                                  _launched =
+                                      launchUrl(snapshot.data!.trackUri);
+                                }),
+                              )
+                            ],
+                          ))),
                   const SizedBox(
                     height: 80,
                   ),
@@ -238,7 +245,7 @@ class _SotdAppState extends State<SotdApp> {
                     thickness: 1,
                     color: Colors.white.withOpacity(0.8),
                   ),
-                  PastSongs(),
+                  const PastSongs(),
                 ],
               );
             } else if (snapshot.hasError) {
