@@ -97,7 +97,13 @@ class _SotdAppState extends State<SotdApp> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(backgroundColor: Colors.black, body: getBody());
+    return Container(
+        decoration: const BoxDecoration(
+            gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: [Colors.blue, Colors.red])),
+        child: Scaffold(backgroundColor: Colors.transparent, body: getBody()));
   }
 
   Widget getBody() {
