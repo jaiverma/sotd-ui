@@ -102,7 +102,10 @@ class _SotdAppState extends State<SotdApp> {
 
   Widget getBody() {
     var size = MediaQuery.of(context).size;
-    return SingleChildScrollView(
+    return Center(
+        child: SingleChildScrollView(
+            child: Container(
+      constraints: const BoxConstraints(minWidth: 150, maxWidth: 400),
       child: FutureBuilder<Song>(
           builder: (context, snapshot) {
             if (snapshot.hasData) {
@@ -113,30 +116,32 @@ class _SotdAppState extends State<SotdApp> {
                       Padding(
                           padding: const EdgeInsets.only(
                               left: 30, right: 30, top: 20),
-                          child: Container(
-                            width: size.width - 100,
-                            height: size.width - 100,
-                            decoration: BoxDecoration(boxShadow: const [
+                          child: Center(
+                              child: Container(
+                            width: 260,
+                            height: 260,
+                            decoration: BoxDecoration(boxShadow: [
                               BoxShadow(
-                                  color: Colors.red,
+                                  color: Colors.red[100]!,
                                   blurRadius: 50,
                                   spreadRadius: 5,
-                                  offset: Offset(-10, 40))
+                                  offset: const Offset(-5, 5))
                             ], borderRadius: BorderRadius.circular(20)),
-                          )),
+                          ))),
                       Padding(
                           padding: const EdgeInsets.only(
                               left: 30, right: 30, top: 20),
-                          child: Container(
-                            width: size.width - 60,
-                            height: size.width - 60,
+                          child: Center(
+                              child: Container(
+                            width: 300,
+                            height: 300,
                             decoration: BoxDecoration(
                                 image: DecorationImage(
                                     image:
                                         NetworkImage(snapshot.data!.imageUrl),
                                     fit: BoxFit.cover),
                                 borderRadius: BorderRadius.circular(20)),
-                          )),
+                          ))),
                     ],
                   ),
                   const SizedBox(
@@ -238,7 +243,7 @@ class _SotdAppState extends State<SotdApp> {
             }
           },
           future: song),
-    );
+    )));
   }
 }
 
