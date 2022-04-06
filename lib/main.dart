@@ -109,154 +109,183 @@ class _SotdAppState extends State<SotdApp> {
   Widget getBody() {
     var size = MediaQuery.of(context).size;
     return Center(
-        child: SingleChildScrollView(
-            child: Container(
-      constraints: const BoxConstraints(minWidth: 150, maxWidth: 400),
-      child: FutureBuilder<Song>(
-          builder: (context, snapshot) {
-            if (snapshot.hasData) {
-              return Column(
-                children: [
-                  Stack(
-                    children: [
-                      Padding(
-                          padding: const EdgeInsets.only(
-                              left: 30, right: 30, top: 20),
-                          child: Center(
-                              child: Container(
-                            width: 260,
-                            height: 260,
-                            decoration: BoxDecoration(boxShadow: [
-                              BoxShadow(
-                                  color: Colors.red[100]!,
-                                  blurRadius: 50,
-                                  spreadRadius: 5,
-                                  offset: const Offset(-5, 5))
-                            ], borderRadius: BorderRadius.circular(20)),
-                          ))),
-                      Padding(
-                          padding: const EdgeInsets.only(
-                              left: 30, right: 30, top: 20),
-                          child: Center(
-                              child: Container(
-                            width: 300,
-                            height: 300,
-                            decoration: BoxDecoration(
-                                image: DecorationImage(
-                                    image:
-                                        NetworkImage(snapshot.data!.imageUrl),
-                                    fit: BoxFit.cover),
-                                borderRadius: BorderRadius.circular(20)),
-                          ))),
-                    ],
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  Padding(
-                      padding: const EdgeInsets.only(left: 10, right: 10),
-                      child: SizedBox(
-                          width: size.width - 80,
-                          height: 70,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        child: SizedBox(
+            width: double.infinity,
+            child: SingleChildScrollView(
+                child: Container(
+              constraints: const BoxConstraints(minWidth: 150, maxWidth: 400),
+              child: FutureBuilder<Song>(
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      return Column(
+                        children: [
+                          Stack(
                             children: [
-                              IconButton(
-                                icon: const Icon(
-                                  AntIcons.heartTwotone,
-                                  color: Colors.red,
-                                ),
-                                onPressed: () {
-                                  showSnackbar(context, "I love you Anu <3");
-                                },
-                              ),
-                              Column(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
-                                children: [
-                                  Text(
-                                    snapshot.data!.trackName,
-                                    style: const TextStyle(
-                                        fontSize: 18,
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                  SizedBox(
-                                      width: 150,
-                                      child: Text(
-                                        snapshot.data!.albumName,
-                                        maxLines: 1,
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(
-                                            fontSize: 15,
+                              Padding(
+                                  padding: const EdgeInsets.only(
+                                      left: 30, right: 30, top: 20),
+                                  child: Center(
+                                      child: Container(
+                                    width: 260,
+                                    height: 260,
+                                    decoration: BoxDecoration(boxShadow: [
+                                      BoxShadow(
+                                          color: Colors.red[100]!,
+                                          blurRadius: 50,
+                                          spreadRadius: 5,
+                                          offset: const Offset(-5, 5))
+                                    ], borderRadius: BorderRadius.circular(20)),
+                                  ))),
+                              Padding(
+                                  padding: const EdgeInsets.only(
+                                      left: 30, right: 30, top: 20),
+                                  child: Center(
+                                      child: Container(
+                                    width: 300,
+                                    height: 300,
+                                    decoration: BoxDecoration(
+                                        image: DecorationImage(
+                                            image: NetworkImage(
+                                                snapshot.data!.imageUrl),
+                                            fit: BoxFit.cover),
+                                        borderRadius:
+                                            BorderRadius.circular(20)),
+                                  ))),
+                            ],
+                          ),
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          Padding(
+                              padding:
+                                  const EdgeInsets.only(left: 10, right: 10),
+                              child: SizedBox(
+                                  width: 400,
+                                  height: 70,
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      IconButton(
+                                        icon: const Icon(
+                                          AntIcons.heartTwotone,
+                                          color: Colors.red,
+                                        ),
+                                        onPressed: () {
+                                          showSnackbar(
+                                              context, "I love you Anu <3");
+                                        },
+                                      ),
+                                      Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceEvenly,
+                                        children: [
+                                          Text(
+                                            snapshot.data!.trackName,
+                                            style: const TextStyle(
+                                                fontSize: 18,
+                                                color: Colors.white,
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                          SizedBox(
+                                              width: 150,
+                                              child: Text(
+                                                snapshot.data!.albumName,
+                                                maxLines: 1,
+                                                textAlign: TextAlign.center,
+                                                style: TextStyle(
+                                                    fontSize: 17,
+                                                    color: Colors.white
+                                                        .withOpacity(0.8)),
+                                              )),
+                                          SizedBox(
+                                              width: 150,
+                                              child: Text(
+                                                snapshot.data!.artists
+                                                    .join(", "),
+                                                maxLines: 1,
+                                                textAlign: TextAlign.center,
+                                                style: TextStyle(
+                                                    fontSize: 15,
+                                                    color: Colors.white
+                                                        .withOpacity(0.5)),
+                                              ))
+                                        ],
+                                      ),
+                                      IconButton(
+                                        icon: const Icon(
+                                          AntIcons.smileFilled,
+                                          color: Colors.amber,
+                                        ),
+                                        onPressed: () {
+                                          showSnackbar(
+                                              context, "Hiiiiii Anu :D");
+                                        },
+                                      )
+                                    ],
+                                  ))),
+                          const SizedBox(
+                            height: 25,
+                          ),
+                          Padding(
+                              padding:
+                                  const EdgeInsets.only(left: 10, right: 10),
+                              child: SizedBox(
+                                  width: 200,
+                                  height: 70,
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      IconButton(
+                                        padding: EdgeInsets.zero,
+                                        icon: Icon(AntIcons.paperClipOutlined,
                                             color:
-                                                Colors.white.withOpacity(0.5)),
-                                      ))
-                                ],
-                              ),
-                              IconButton(
-                                icon: const Icon(
-                                  AntIcons.smileFilled,
-                                  color: Colors.amber,
-                                ),
-                                onPressed: () {
-                                  showSnackbar(context, "Hiiiiii Anu :D");
-                                },
-                              )
-                            ],
-                          ))),
-                  const SizedBox(
-                    height: 25,
-                  ),
-                  Padding(
-                      padding: const EdgeInsets.only(left: 10, right: 10),
-                      child: SizedBox(
-                          width: 200,
-                          height: 70,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              IconButton(
-                                padding: EdgeInsets.zero,
-                                icon: Icon(AntIcons.paperClipOutlined,
-                                    color: Colors.white.withOpacity(0.8),
-                                    size: 50),
-                                onPressed: () => setState(() {
-                                  _launched =
-                                      launchUrl(snapshot.data!.trackUrl);
-                                }),
-                              ),
-                              IconButton(
-                                padding: EdgeInsets.zero,
-                                icon: Icon(AntIcons.playSquareOutlined,
-                                    color: Colors.white.withOpacity(0.8),
-                                    size: 50),
-                                onPressed: () => setState(() {
-                                  _launched =
-                                      launchUrl(snapshot.data!.trackUri);
-                                }),
-                              )
-                            ],
-                          ))),
-                  const SizedBox(
-                    height: 80,
-                  ),
-                  Divider(
-                    thickness: 1,
-                    color: Colors.white.withOpacity(0.8),
-                  ),
-                  const PastSongs(),
-                ],
-              );
-            } else if (snapshot.hasError) {
-              return Text("${snapshot.error}",
-                  style: const TextStyle(fontSize: 20, color: Colors.white));
-            } else {
-              return const CircularProgressIndicator();
-            }
-          },
-          future: song),
-    )));
+                                                Colors.white.withOpacity(0.8),
+                                            size: 50),
+                                        onPressed: () => setState(() {
+                                          _launched = launchUrl(
+                                              snapshot.data!.trackUrl);
+                                        }),
+                                      ),
+                                      IconButton(
+                                        padding: EdgeInsets.zero,
+                                        icon: Icon(AntIcons.playSquareOutlined,
+                                            color:
+                                                Colors.white.withOpacity(0.8),
+                                            size: 50),
+                                        onPressed: () => setState(() {
+                                          _launched = launchUrl(
+                                              snapshot.data!.trackUri);
+                                        }),
+                                      )
+                                    ],
+                                  ))),
+                          const SizedBox(
+                            height: 80,
+                          ),
+                          SizedBox(
+                              width: 400,
+                              child: Divider(
+                                thickness: 1,
+                                color: Colors.white.withOpacity(0.8),
+                              )),
+                          const SizedBox(
+                            width: 400,
+                            child: PastSongs(),
+                          ),
+                        ],
+                      );
+                    } else if (snapshot.hasError) {
+                      return Text("${snapshot.error}",
+                          style: const TextStyle(
+                              fontSize: 20, color: Colors.white));
+                    } else {
+                      return const CircularProgressIndicator();
+                    }
+                  },
+                  future: song),
+            ))));
   }
 }
 
@@ -316,30 +345,49 @@ class _PastSongsState extends State<PastSongs> {
                                   color: Colors.white,
                                   fontWeight: FontWeight.normal),
                               textAlign: TextAlign.left,
+                              overflow: TextOverflow.ellipsis,
                             ),
-                            trailing: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                mainAxisSize: MainAxisSize.min,
+                            leading: Image(
+                                image: NetworkImage(
+                                    snapshot.data![index].imageUrl)),
+                            subtitle: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text(snapshot.data![index].albumName,
-                                      style: TextStyle(
-                                          color: Colors.white.withOpacity(0.8),
-                                          fontWeight: FontWeight.w400)),
                                   const SizedBox(
-                                    width: 20,
+                                    height: 10,
                                   ),
-                                  Text(snapshot.data![index].artists.join(", "),
-                                      style: TextStyle(
-                                          color: Colors.white.withOpacity(0.8),
-                                          fontWeight: FontWeight.w400,
-                                          fontStyle: FontStyle.italic)),
-                                  const SizedBox(
-                                    width: 20,
-                                  ),
-                                  Image(
-                                      image: NetworkImage(
-                                          snapshot.data![index].imageUrl)),
+                                  Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        Text(
+                                          snapshot.data![index].albumName,
+                                          style: TextStyle(
+                                              color:
+                                                  Colors.white.withOpacity(0.8),
+                                              fontWeight: FontWeight.w400),
+                                          overflow: TextOverflow.ellipsis,
+                                          textAlign: TextAlign.left,
+                                        ),
+                                        const SizedBox(
+                                          width: 20,
+                                        ),
+                                        Text(
+                                          snapshot.data![index].artists
+                                              .join(", "),
+                                          style: TextStyle(
+                                              color:
+                                                  Colors.white.withOpacity(0.8),
+                                              fontWeight: FontWeight.w400,
+                                              fontStyle: FontStyle.italic),
+                                          overflow: TextOverflow.ellipsis,
+                                          textAlign: TextAlign.left,
+                                        ),
+                                        const SizedBox(
+                                          width: 20,
+                                        ),
+                                      ])
                                 ]),
                             onTap: () => setState(() {
                                   _launched =
