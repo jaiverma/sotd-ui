@@ -354,40 +354,28 @@ class _PastSongsState extends State<PastSongs> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   const SizedBox(
-                                    height: 10,
+                                    height: 5,
                                   ),
-                                  Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [
-                                        Text(
-                                          snapshot.data![index].albumName,
-                                          style: TextStyle(
-                                              color:
-                                                  Colors.white.withOpacity(0.8),
-                                              fontWeight: FontWeight.w400),
-                                          overflow: TextOverflow.ellipsis,
-                                          textAlign: TextAlign.left,
-                                        ),
-                                        const SizedBox(
-                                          width: 20,
-                                        ),
-                                        Text(
-                                          snapshot.data![index].artists
-                                              .join(", "),
-                                          style: TextStyle(
-                                              color:
-                                                  Colors.white.withOpacity(0.8),
-                                              fontWeight: FontWeight.w400,
-                                              fontStyle: FontStyle.italic),
-                                          overflow: TextOverflow.ellipsis,
-                                          textAlign: TextAlign.left,
-                                        ),
-                                        const SizedBox(
-                                          width: 20,
-                                        ),
-                                      ])
+                                  Text(
+                                    snapshot.data![index].albumName,
+                                    style: TextStyle(
+                                        color: Colors.white.withOpacity(0.8),
+                                        fontWeight: FontWeight.w400),
+                                    overflow: TextOverflow.ellipsis,
+                                    textAlign: TextAlign.left,
+                                  ),
+                                  const SizedBox(
+                                    height: 3,
+                                  ),
+                                  Text(
+                                    snapshot.data![index].artists.join(", "),
+                                    style: TextStyle(
+                                      color: Colors.white.withOpacity(0.5),
+                                      fontWeight: FontWeight.w400,
+                                    ),
+                                    overflow: TextOverflow.ellipsis,
+                                    textAlign: TextAlign.left,
+                                  ),
                                 ]),
                             onTap: () => setState(() {
                                   _launched =
