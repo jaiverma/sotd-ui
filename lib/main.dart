@@ -14,7 +14,7 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(title: 'Flutter Demo', home: SotdApp());
+    return const MaterialApp(title: '❤️ For Anu, Forever Ago', home: SotdApp());
   }
 }
 
@@ -65,10 +65,17 @@ Future<List<Song>> getPastSongs(String url) async {
   }
 }
 
-void showSnackbar(BuildContext context, String msg) {
+void showSnackbar(
+    BuildContext context, String msg, IconData icon, Color color) {
   ScaffoldMessenger.of(context).hideCurrentSnackBar();
   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-    content: Text(msg),
+    content: Row(mainAxisAlignment: MainAxisAlignment.start, children: [
+      Text(msg),
+      const SizedBox(
+        width: 5,
+      ),
+      Icon(icon, color: color)
+    ]),
   ));
 }
 
@@ -168,12 +175,15 @@ class _SotdAppState extends State<SotdApp> {
                                     children: [
                                       IconButton(
                                         icon: const Icon(
-                                          AntIcons.heartTwotone,
+                                          AntIcons.heartFilled,
                                           color: Colors.red,
                                         ),
                                         onPressed: () {
                                           showSnackbar(
-                                              context, "I love you Anu <3");
+                                              context,
+                                              "I love you Anu",
+                                              AntIcons.heartFilled,
+                                              Colors.red);
                                         },
                                       ),
                                       Column(
@@ -219,7 +229,10 @@ class _SotdAppState extends State<SotdApp> {
                                         ),
                                         onPressed: () {
                                           showSnackbar(
-                                              context, "Hiiiiii Anu :D");
+                                              context,
+                                              "Hiiiiii Anu",
+                                              AntIcons.smileFilled,
+                                              Colors.amber);
                                         },
                                       )
                                     ],
