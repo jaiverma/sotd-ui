@@ -92,7 +92,7 @@ class _SotdAppState extends State<SotdApp> {
   @override
   void initState() {
     super.initState();
-    song = getSotd("http://localhost:5000/get_sotd");
+    song = getSotd("https://sotd.jai.cafe/get_sotd");
   }
 
   @override
@@ -305,7 +305,7 @@ class _PastSongsState extends State<PastSongs> {
   @override
   void initState() {
     super.initState();
-    songList = getPastSongs("http://localhost:5000/past_songs");
+    songList = getPastSongs("https://sotd.jai.cafe/past_songs");
   }
 
   @override
