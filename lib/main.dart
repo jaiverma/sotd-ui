@@ -14,7 +14,16 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(title: '❤️ For Anu, Forever Ago', home: SotdApp());
+    const primaryColor = Color(0xff9fa5d5);
+    return MaterialApp(
+      title: '❤️ For Anu, Forever Ago',
+      home: const SotdApp(),
+      theme: ThemeData(
+          backgroundColor: primaryColor,
+          splashColor: primaryColor,
+          primaryColor: primaryColor,
+          fontFamily: 'YanoneKaffeesatz'),
+    );
   }
 }
 
@@ -193,7 +202,7 @@ class _SotdAppState extends State<SotdApp> {
                                           Text(
                                             snapshot.data!.trackName,
                                             style: const TextStyle(
-                                                fontSize: 18,
+                                                fontSize: 22,
                                                 color: Colors.white,
                                                 fontWeight: FontWeight.bold),
                                           ),
@@ -204,7 +213,7 @@ class _SotdAppState extends State<SotdApp> {
                                                 maxLines: 1,
                                                 textAlign: TextAlign.center,
                                                 style: TextStyle(
-                                                    fontSize: 17,
+                                                    fontSize: 19,
                                                     color: Colors.white
                                                         .withOpacity(0.8)),
                                               )),
@@ -216,7 +225,7 @@ class _SotdAppState extends State<SotdApp> {
                                                 maxLines: 1,
                                                 textAlign: TextAlign.center,
                                                 style: TextStyle(
-                                                    fontSize: 15,
+                                                    fontSize: 18,
                                                     color: Colors.white
                                                         .withOpacity(0.5)),
                                               ))
@@ -336,7 +345,7 @@ class _PastSongsState extends State<PastSongs> {
                 child: Center(
                   child: Text(
                     "Past songs",
-                    style: TextStyle(fontSize: 20, color: Colors.white),
+                    style: TextStyle(fontSize: 22, color: Colors.white),
                     textAlign: TextAlign.center,
                   ),
                 )),
@@ -354,7 +363,7 @@ class _PastSongsState extends State<PastSongs> {
                             title: Text(
                               song.trackName,
                               style: const TextStyle(
-                                  fontSize: 17,
+                                  fontSize: 19,
                                   color: Colors.white,
                                   fontWeight: FontWeight.normal),
                               textAlign: TextAlign.left,
@@ -372,6 +381,7 @@ class _PastSongsState extends State<PastSongs> {
                                   Text(
                                     snapshot.data![index].albumName,
                                     style: TextStyle(
+                                        fontSize: 16,
                                         color: Colors.white.withOpacity(0.8),
                                         fontWeight: FontWeight.w400),
                                     overflow: TextOverflow.ellipsis,
@@ -383,6 +393,7 @@ class _PastSongsState extends State<PastSongs> {
                                   Text(
                                     snapshot.data![index].artists.join(", "),
                                     style: TextStyle(
+                                      fontSize: 15,
                                       color: Colors.white.withOpacity(0.5),
                                       fontWeight: FontWeight.w400,
                                     ),
