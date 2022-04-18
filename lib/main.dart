@@ -109,7 +109,7 @@ class _SotdAppState extends State<SotdApp> {
             gradient: LinearGradient(
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
-                colors: [Colors.blue, Colors.red])),
+                colors: [Color(0xffe5aac3), Color(0xff9a52c7)])),
         child: Scaffold(backgroundColor: Colors.transparent, body: getBody()));
   }
 
