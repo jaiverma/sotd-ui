@@ -1,8 +1,11 @@
 import 'dart:convert';
+import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:antdesign_icons/antdesign_icons.dart';
 import 'package:url_launcher/url_launcher.dart';
+
+final rng = Random(DateTime.now().millisecondsSinceEpoch.toInt());
 
 void main() {
   runApp(const MyApp());
@@ -188,11 +191,8 @@ class _SotdAppState extends State<SotdApp> {
                                           color: Colors.red,
                                         ),
                                         onPressed: () {
-                                          showSnackbar(
-                                              context,
-                                              "I love you Anu",
-                                              AntIcons.heartFilled,
-                                              Colors.red);
+                                          showSnackbar(context, getLoveNote(),
+                                              AntIcons.heartFilled, Colors.red);
                                         },
                                       ),
                                       Column(
@@ -239,7 +239,7 @@ class _SotdAppState extends State<SotdApp> {
                                         onPressed: () {
                                           showSnackbar(
                                               context,
-                                              "Hiiiiii Anu",
+                                              getGreeting(),
                                               AntIcons.smileFilled,
                                               Colors.amber);
                                         },
@@ -418,4 +418,31 @@ class _PastSongsState extends State<PastSongs> {
           ],
         ));
   }
+}
+
+String getGreeting() {
+  final names = [
+    "Anu",
+    "Coco",
+    "Anubhuti",
+    "Anubhuti Agarwal",
+    "Maharani Coco",
+    "Jaanu",
+    "Jojo's lover",
+    "Lover of Jai",
+    "Soda",
+    "Soda Screamer"
+  ];
+  return "Hu ${names[rng.nextInt(names.length)]}";
+}
+
+String getLoveNote() {
+  final notes = [
+    "I love you",
+    "I adore you",
+    "You are the love of my life",
+    "I miss you",
+    "Love you to the moon and back"
+  ];
+  return "${notes[rng.nextInt(notes.length)]} Anu";
 }
