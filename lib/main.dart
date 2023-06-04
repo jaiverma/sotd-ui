@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget {
       title: '❤️ For Anu, Forever Ago',
       home: const SotdApp(),
       theme: ThemeData(
-          backgroundColor: primaryColor,
+          // backgroundColor: primaryColor,
           splashColor: primaryColor,
           primaryColor: primaryColor,
           fontFamily: 'YanoneKaffeesatz'),
@@ -91,8 +91,8 @@ void showSnackbar(
   ));
 }
 
-Future<void> launchUrl(String url) async {
-  if (!await launch(url)) {
+Future<void> loadUrl(String url) async {
+  if (!await launchUrl(Uri.parse(url))) {
     throw "Could not launch $url";
   }
 }
@@ -266,8 +266,8 @@ class _SotdAppState extends State<SotdApp> {
                                                 Colors.white.withOpacity(0.8),
                                             size: 50),
                                         onPressed: () => setState(() {
-                                          _launched = launchUrl(
-                                              snapshot.data!.trackUrl);
+                                          _launched =
+                                              loadUrl(snapshot.data!.trackUrl);
                                         }),
                                       ),
                                       IconButton(
@@ -277,8 +277,8 @@ class _SotdAppState extends State<SotdApp> {
                                                 Colors.white.withOpacity(0.8),
                                             size: 50),
                                         onPressed: () => setState(() {
-                                          _launched = launchUrl(
-                                              snapshot.data!.trackUri);
+                                          _launched =
+                                              loadUrl(snapshot.data!.trackUri);
                                         }),
                                       )
                                     ],
@@ -292,6 +292,13 @@ class _SotdAppState extends State<SotdApp> {
                                 thickness: 1,
                                 color: Colors.white.withOpacity(0.8),
                               )),
+                          IconButton(
+                              padding: EdgeInsets.zero,
+                              icon: Icon(AntIcons.accountBookFilled,
+                                  color: Colors.white.withOpacity(0.8),
+                                  size: 50),
+                              onPressed: () => getGradientFromImage(
+                                  snapshot.data!.imageUrl)),
                           const SizedBox(
                             width: 400,
                             child: PastSongs(),
@@ -403,7 +410,7 @@ class _PastSongsState extends State<PastSongs> {
                                 ]),
                             onTap: () => setState(() {
                                   _launched =
-                                      launchUrl(snapshot.data![index].trackUri);
+                                      loadUrl(snapshot.data![index].trackUri);
                                 }));
                       });
                 } else if (snapshot.hasError) {
@@ -445,4 +452,12 @@ String getLoveNote() {
     "Love you to the moon and back"
   ];
   return "${notes[rng.nextInt(notes.length)]} Anu";
+}
+
+void getGradientFromImage(String url) async {
+  print(url);
+  final response = await http.get(Uri.parse(url));
+  assert(response.statusCode == 200);
+  final imageBytes = response.bodyBytes;
+  print(imageBytes);
 }
