@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:antdesign_icons/antdesign_icons.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:image/image.dart' as img;
 
 final rng = Random(DateTime.now().millisecondsSinceEpoch.toInt());
 
@@ -116,17 +117,38 @@ class _SotdAppState extends State<SotdApp> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-        decoration: const BoxDecoration(
-            gradient: LinearGradient(
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-                colors: [Color(0xff04619f), Color(0xff000000)])),
-        child: Scaffold(backgroundColor: Colors.transparent, body: getBody()));
+    const defaultGradient = LinearGradient(
+        begin: Alignment.topLeft,
+        end: Alignment.bottomRight,
+        colors: [Color(0xff04619f), Color(0xff000000)]);
+    return FutureBuilder<Song>(
+        future: song,
+        builder: (context, snapshot) {
+          if (!snapshot.hasData) {
+            return Container(
+                decoration: const BoxDecoration(gradient: defaultGradient));
+          } else {
+            return Container(
+                child: FutureBuilder<LinearGradient>(
+              builder: (context, snapshot) {
+                return Container(
+                    decoration: BoxDecoration(gradient: snapshot.data!),
+                    child: Scaffold(
+                        backgroundColor: Colors.transparent, body: getBody()));
+              },
+              future: getGradientFromImage(snapshot.data!.imageUrl),
+              initialData: defaultGradient,
+            ));
+          }
+        });
+    // return Container(
+    //     decoration:
+    //         FutureBuilder<Decoration>(builder: (context, snapshot) => return getGradientFromImage(snapshot.data!.imageUrl), future: song,),
+    //         // BoxDecoration(gradient: getGradientFromImage(song.imageUrl)),
+    //     child: Scaffold(backgroundColor: Colors.transparent, body: getBody()));
   }
 
   Widget getBody() {
-    var size = MediaQuery.of(context).size;
     return Center(
         child: SizedBox(
             width: double.infinity,
@@ -292,13 +314,6 @@ class _SotdAppState extends State<SotdApp> {
                                 thickness: 1,
                                 color: Colors.white.withOpacity(0.8),
                               )),
-                          IconButton(
-                              padding: EdgeInsets.zero,
-                              icon: Icon(AntIcons.accountBookFilled,
-                                  color: Colors.white.withOpacity(0.8),
-                                  size: 50),
-                              onPressed: () => getGradientFromImage(
-                                  snapshot.data!.imageUrl)),
                           const SizedBox(
                             width: 400,
                             child: PastSongs(),
@@ -454,10 +469,39 @@ String getLoveNote() {
   return "${notes[rng.nextInt(notes.length)]} Anu";
 }
 
-void getGradientFromImage(String url) async {
-  print(url);
+Future<LinearGradient> getGradientFromImage(String url) async {
   final response = await http.get(Uri.parse(url));
   assert(response.statusCode == 200);
-  final imageBytes = response.bodyBytes;
-  print(imageBytes);
+  final responseBytes = response.bodyBytes;
+  final decoder = img.JpegDecoder();
+  final decodedImg = decoder.decode(responseBytes);
+  final imgBytes = decodedImg?.getBytes(order: img.ChannelOrder.rgb);
+
+  var avgR = 0;
+  var avgG = 0;
+  var avgB = 0;
+  var count = 0;
+
+  for (var i = 0; i < imgBytes!.length / 3; i += 3) {
+    var r = imgBytes[i];
+    var g = imgBytes[i + 1];
+    var b = imgBytes[i + 2];
+
+    avgR += r;
+    avgG += g;
+    avgB += b;
+    count++;
+  }
+
+  avgR = (avgR / count).floor();
+  avgG = (avgG / count).floor();
+  avgB = (avgB / count).floor();
+
+  return LinearGradient(
+      begin: Alignment.topLeft,
+      end: Alignment.bottomRight,
+      colors: [
+        Color.fromARGB(0xff, avgR, avgG, avgB),
+        const Color(0xff000000)
+      ]);
 }
