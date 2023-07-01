@@ -302,27 +302,38 @@ class _PastSongsState extends State<PastSongs> {
         height: 300,
         child: Column(
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                const Text(
-                  "Past songs",
-                  style: TextStyle(fontSize: 22, color: Colors.white),
-                  textAlign: TextAlign.center,
-                ),
-                if (shouldShowToday)
-                  ElevatedButton(
-                      onPressed: () {
-                        state.sotd.then((value) => state.currentSong = value);
-                        widget.function();
-                      },
-                      child: const Text(
-                        "Today",
-                        style: TextStyle(fontSize: 22, color: Colors.white),
-                        textAlign: TextAlign.center,
-                      )),
-              ],
-            ),
+            SizedBox(
+                height: 30.0,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    const Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          "Past songs",
+                          style: TextStyle(fontSize: 22, color: Colors.white),
+                          textAlign: TextAlign.center,
+                        )),
+                    if (shouldShowToday)
+                      ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                              minimumSize: const Size.fromWidth(70.0)),
+                          onPressed: () {
+                            state.sotd
+                                .then((value) => state.currentSong = value);
+                            widget.function();
+                          },
+                          child: const Text(
+                            "Today",
+                            style: TextStyle(fontSize: 22, color: Colors.white),
+                            textAlign: TextAlign.center,
+                          ))
+                    else
+                      const SizedBox(
+                        width: 70.0,
+                      )
+                  ],
+                )),
             Divider(thickness: 1, color: Colors.white.withOpacity(0.8)),
             Expanded(
                 child: FutureBuilder<List<Song>>(
