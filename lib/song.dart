@@ -25,6 +25,19 @@ class Song {
     return Song(
         albumName, artists, image, releaseDate, trackName, trackUri, trackUrl);
   }
+
+  @override
+  bool operator ==(Object other) {
+    if (other is Song && other.runtimeType == runtimeType) {
+      return other.trackName == trackName &&
+          other.albumName == albumName &&
+          other.trackUri == trackUri;
+    }
+    return false;
+  }
+
+  @override
+  int get hashCode => Object.hash(trackName, albumName, trackUri);
 }
 
 Future<Song> getSotd(String url) async {

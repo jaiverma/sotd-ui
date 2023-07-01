@@ -281,6 +281,7 @@ class PastSongs extends StatefulWidget {
 
 class _PastSongsState extends State<PastSongs> {
   late SongState state;
+  bool shouldShowToday = false;
 
   @override
   void initState() {
@@ -294,33 +295,32 @@ class _PastSongsState extends State<PastSongs> {
   }
 
   Widget getBody() {
+    state.sotd.then((value) {
+      shouldShowToday = value != state.currentSong!;
+    });
     return SizedBox(
         height: 300,
         child: Column(
           children: [
             Row(
-              mainAxisAlignment: MainAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                SizedBox(
-                    height: 30,
-                    child: TextButton(
-                        onPressed: () {
-                          state.sotd.then((value) => state.currentSong = value);
-                          widget.function();
-                        },
-                        child: const Text(
-                          "Today",
-                          style: TextStyle(fontSize: 22, color: Colors.teal),
-                        ))),
-                const SizedBox(
-                    height: 30,
-                    child: Center(
-                      child: Text(
-                        "Past songs",
+                const Text(
+                  "Past songs",
+                  style: TextStyle(fontSize: 22, color: Colors.white),
+                  textAlign: TextAlign.center,
+                ),
+                if (shouldShowToday)
+                  ElevatedButton(
+                      onPressed: () {
+                        state.sotd.then((value) => state.currentSong = value);
+                        widget.function();
+                      },
+                      child: const Text(
+                        "Today",
                         style: TextStyle(fontSize: 22, color: Colors.white),
                         textAlign: TextAlign.center,
-                      ),
-                    )),
+                      )),
               ],
             ),
             Divider(thickness: 1, color: Colors.white.withOpacity(0.8)),
