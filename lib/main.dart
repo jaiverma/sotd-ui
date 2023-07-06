@@ -1,4 +1,3 @@
-import 'dart:math';
 import 'song.dart';
 import 'song_state.dart';
 import 'package:flutter/material.dart';
@@ -6,8 +5,6 @@ import 'package:http/http.dart' as http;
 import 'package:antdesign_icons/antdesign_icons.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:image/image.dart' as img;
-
-final rng = Random(DateTime.now().millisecondsSinceEpoch.toInt());
 
 void main() {
   runApp(const MyApp());
@@ -32,11 +29,19 @@ class MyApp extends StatelessWidget {
 }
 
 void showSnackbar(
-    BuildContext context, String msg, IconData icon, Color color) {
+    BuildContext context, Future<String> msg, IconData icon, Color color) {
   ScaffoldMessenger.of(context).hideCurrentSnackBar();
   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
     content: Row(mainAxisAlignment: MainAxisAlignment.start, children: [
-      Text(msg),
+      FutureBuilder(
+          future: msg,
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              return Text(snapshot.data!.toString());
+            } else {
+              return const Text("...");
+            }
+          }),
       const SizedBox(
         width: 5,
       ),
@@ -169,7 +174,7 @@ class _SotdAppState extends State<SotdApp> {
                                         color: Colors.red,
                                       ),
                                       onPressed: () {
-                                        showSnackbar(context, getLoveNote(),
+                                        showSnackbar(context, state.loveNote,
                                             AntIcons.heartFilled, Colors.red);
                                       },
                                     ),
@@ -215,7 +220,7 @@ class _SotdAppState extends State<SotdApp> {
                                         color: Colors.amber,
                                       ),
                                       onPressed: () {
-                                        showSnackbar(context, getGreeting(),
+                                        showSnackbar(context, state.greeting,
                                             AntIcons.smileFilled, Colors.amber);
                                       },
                                     )
@@ -404,33 +409,6 @@ class _PastSongsState extends State<PastSongs> {
           ],
         ));
   }
-}
-
-String getGreeting() {
-  final names = [
-    "Anu",
-    "Coco",
-    "Anubhuti",
-    "Anubhuti Agarwal",
-    "Maharani Coco",
-    "Jaanu",
-    "Jojo's lover",
-    "Lover of Jai",
-    "Soda",
-    "Soda Screamer"
-  ];
-  return "Hu ${names[rng.nextInt(names.length)]}";
-}
-
-String getLoveNote() {
-  final notes = [
-    "I love you",
-    "I adore you",
-    "You are the love of my life",
-    "I miss you",
-    "Love you to the moon and back"
-  ];
-  return "${notes[rng.nextInt(notes.length)]} Anu";
 }
 
 Future<LinearGradient> getGradientFromImage(String url) async {
