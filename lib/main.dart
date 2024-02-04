@@ -5,8 +5,10 @@ import 'package:http/http.dart' as http;
 import 'package:antdesign_icons/antdesign_icons.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:image/image.dart' as img;
+import 'fcm_monitor.dart';
 
 void main() {
+  // set up fcm
   runApp(const MyApp());
 }
 
